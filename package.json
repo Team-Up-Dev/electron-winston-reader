@@ -1,0 +1,19 @@
+{
+  "name": "electron-winston-reader",
+  "version": "1.0.0",
+  "description": "electron desktop app for reading winston generated .log file",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-Up-Dev/electron-winston-reader.git"
+  },
+  "author": "Ezra Khairan Permana",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Team-Up-Dev/electron-winston-reader/issues"
+  },
+  "homepage": "https://github.com/Team-Up-Dev/electron-winston-reader#readme"
+}
