@@ -4,7 +4,7 @@
   "description": "electron desktop app for reading winston generated .log file",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/Team-Up-Dev/electron-winston-reader/issues"
   },
-  "homepage": "https://github.com/Team-Up-Dev/electron-winston-reader#readme"
+  "homepage": "https://github.com/Team-Up-Dev/electron-winston-reader#readme",
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "electron": "^11.1.0",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
+  }
 }
