@@ -10,7 +10,15 @@ function createWindow() {
     },
   });
 
-  win.loadFile(path.resolve("src/index.html"));
+  const startUrl =
+    process.env.ELECTRON_START_URL ||
+    url.format({
+      pathname: path.join(__dirname, "/../build/index.html"),
+      protocol: "file:",
+      slashes: true,
+    });
+
+  win.loadURL(startUrl);
 }
 
 app.whenReady().then(createWindow);

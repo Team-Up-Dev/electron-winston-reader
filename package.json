@@ -3,8 +3,23 @@
   "version": "1.0.0",
   "description": "electron desktop app for reading winston generated .log file",
   "main": "main.js",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.6.0",
+    "bootstrap": "^4.5.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.1",
+    "web-vitals": "^0.2.4"
+  },
   "scripts": {
-    "start": "electron ."
+    "start": "BROWSER=none react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "ELECTRON_START_URL=http://localhost:3000 electron ."
   },
   "repository": {
     "type": "git",
@@ -15,11 +30,26 @@
   "bugs": {
     "url": "https://github.com/Team-Up-Dev/electron-winston-reader/issues"
   },
-  "homepage": "https://github.com/Team-Up-Dev/electron-winston-reader#readme",
-  "dependencies": {
-    "bootstrap": "^4.5.3",
-    "electron": "^11.1.0",
-    "jquery": "^3.5.1",
-    "popper.js": "^1.16.1"
+  "homepage": "./",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^11.1.0"
   }
 }
