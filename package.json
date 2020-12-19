@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron": "electron .",
     "react-start": "BROWSER=none react-scripts start",
     "ebuild": "npm run build && node_modules/.bin/build"
   },
