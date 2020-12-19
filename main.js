@@ -1,9 +1,11 @@
-const { app, BrowserWindow, ipcMain: ipc } = require("electron");
+const { app, BrowserWindow, ipcMain: ipc, dialog } = require("electron");
 const isDev = require("electron-is-dev");
 const path = require("path");
 
+let mainWindow;
+
 function createWindow() {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -21,7 +23,7 @@ function createWindow() {
         slashes: true,
       });
 
-  win.loadURL(startUrl);
+  mainWindow.loadURL(startUrl);
 }
 
 app.whenReady().then(createWindow);
@@ -38,4 +40,12 @@ app.on("activate", () => {
   }
 });
 
-ipc.on("file:request", (d) => console.log(d));
+ipc.on("file:request", () => {
+  const files = dialog.showOpenDialogSync(mainWindow, {
+    properties: ["openFile"],
+    filters: [{ name: "Log File", extensions: ["log"] }],
+  });
+
+  if (!files) return;
+  mainWindow.webContents.send("file:open", files[0]);
+});

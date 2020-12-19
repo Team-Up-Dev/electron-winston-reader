@@ -1,6 +1,13 @@
+import { useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 function App() {
+  useEffect(() => {
+    window.ipcRenderer.on("file:open", (data) => {
+      console.log(data);
+    });
+  }, []);
+
   return (
     <Container>
       <Row className="justify-content-center">
