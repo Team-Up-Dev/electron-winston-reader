@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain: ipc } = require("electron");
 const isDev = require("electron-is-dev");
 const path = require("path");
 
@@ -9,6 +9,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      preload: __dirname + "/preload.js",
     },
   });
 
@@ -36,3 +37,5 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+ipc.on("file:request", (d) => console.log(d));
