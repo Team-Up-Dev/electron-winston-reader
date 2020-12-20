@@ -1,18 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 function App() {
+  const [path, setPath] = useState(null);
+
   useEffect(() => {
-    window.ipcRenderer.on("file:open", (data) => {
-      console.log(data);
-    });
+    window.ipcRenderer.on("file:open", (data, path) => setPath(path));
+    window.ipcRenderer.on("file:change", (data, path) => {});
   }, []);
 
   return (
     <Container>
       <Row className="justify-content-center">
         <Col>
-          <h1 className="text-center">Insert File</h1>
+          <h1 className="text-center">
+            {path === null ? "Insert File" : "Now Reading File"}
+          </h1>
         </Col>
       </Row>
       <Row className="justify-content-center">
