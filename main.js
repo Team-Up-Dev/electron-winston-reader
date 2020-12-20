@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain: ipc, dialog } = require("electron");
+const chokidar = require("chokidar");
 const isDev = require("electron-is-dev");
 const path = require("path");
 
@@ -47,5 +48,9 @@ ipc.on("file:request", () => {
   });
 
   if (!files) return;
-  mainWindow.webContents.send("file:open", files[0]);
+  const watcher = chokidar.watch(files[0], { persistent: true });
+
+  watcher
+    .on("add", (path) => mainWindow.webContents.send("file:open", path))
+    .on("change", (path) => mainWindow.webContents.send("file:change", path));
 });
