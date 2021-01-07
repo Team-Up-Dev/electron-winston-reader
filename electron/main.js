@@ -4,6 +4,7 @@ const chokidar = require("chokidar");
 const path = require("path");
 
 const reader = require("./reader");
+const parser = require("./parser");
 
 let mainWindow;
 
@@ -55,10 +56,20 @@ ipc.on("file:request", () => {
   watcher
     .on("add", async (path) => {
       const data = await reader(path);
-      mainWindow.webContents.send("file:open", JSON.stringify({ path, data }));
+      const parsedData = parser(data);
+
+      mainWindow.webContents.send(
+        "file:open",
+        JSON.stringify({ path, data: parsedData })
+      );
     })
     .on("change", async (path) => {
       const data = await reader(path);
-      mainWindow.webContents.send("file:change", JSON.stringify({ data }));
+      const parsedData = parser(data);
+
+      mainWindow.webContents.send(
+        "file:change",
+        JSON.stringify({ data: parsedData })
+      );
     });
 });
