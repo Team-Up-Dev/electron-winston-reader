@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain: ipc, dialog } = require("electron");
-const chokidar = require("chokidar");
 const isDev = require("electron-is-dev");
+const chokidar = require("chokidar");
 const path = require("path");
+
+const reader = require("./reader");
 
 let mainWindow;
 
@@ -51,6 +53,12 @@ ipc.on("file:request", () => {
   const watcher = chokidar.watch(files[0], { persistent: true });
 
   watcher
-    .on("add", (path) => mainWindow.webContents.send("file:open", path))
-    .on("change", (path) => mainWindow.webContents.send("file:change", path));
+    .on("add", async (path) => {
+      const data = await reader(path);
+      mainWindow.webContents.send("file:open", JSON.stringify({ path, data }));
+    })
+    .on("change", async (path) => {
+      const data = await reader(path);
+      mainWindow.webContents.send("file:change", JSON.stringify({ data }));
+    });
 });

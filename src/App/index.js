@@ -3,10 +3,14 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 
 function App() {
   const [path, setPath] = useState(null);
+  // const [data, setData] = useState([]);
 
   useEffect(() => {
-    window.ipcRenderer.on("file:open", (data, path) => setPath(path));
-    window.ipcRenderer.on("file:change", (data, path) => {});
+    window.ipcRenderer.on("file:open", (dat, json) => {
+      const realData = JSON.parse(json);
+      setPath(realData.path);
+    });
+    window.ipcRenderer.on("file:change", (dat, json) => console.log(json));
   }, []);
 
   return (
