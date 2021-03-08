@@ -1,7 +1,15 @@
-const { app, BrowserWindow, ipcMain: ipc, dialog } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain: ipc,
+  dialog,
+  screen,
+} = require("electron");
+const windowState = require("electron-window-state");
 const isDev = require("electron-is-dev");
 const chokidar = require("chokidar");
 const path = require("path");
+const url = require("url");
 
 const reader = require("./reader");
 const parser = require("./parser");
@@ -9,15 +17,29 @@ const parser = require("./parser");
 let mainWindow;
 
 function createWindow() {
+  const { workAreaSize } = screen.getPrimaryDisplay();
+
+  const mainWindowState = windowState({
+    defaultWidth: workAreaSize.width - 200,
+    defaultHeight: workAreaSize.height - 100,
+  });
+
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    minWidth: 300,
+    minHeight: 300,
+    center: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       preload: __dirname + "/preload.js",
     },
   });
+
+  mainWindowState.manage(mainWindow);
 
   const startUrl = isDev
     ? "http://localhost:3000"

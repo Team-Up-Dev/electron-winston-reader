@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Table } from "react-bootstrap";
 
 function App() {
   const [path, setPath] = useState(null);
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     window.ipcRenderer.on("file:open", (dat, json) => {
       const realData = JSON.parse(json);
       setPath(realData.path);
+      setData(realData.data);
     });
     window.ipcRenderer.on("file:change", (dat, json) => console.log(json));
   }, []);
@@ -32,6 +33,32 @@ function App() {
           </Button>
         </Col>
       </Row>
+      {data && data.length > 0 && (
+        <Row className="justify-content-center mt-2">
+          <Col>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Message</th>
+                  <th>Level</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row, i) => (
+                  <tr key={i}>
+                    <td>{i + 1}</td>
+                    <td>{row.message}</td>
+                    <td>{row.level}</td>
+                    <td>{row.timestamp}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 }
